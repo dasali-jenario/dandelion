@@ -103,7 +103,21 @@ function switchPlayer() {
       currentRound++;
       updateCurrentRound();
       if (currentRound > 7) {
-        alert('Game over! The maximum number of rounds has been reached.');
+        let dandelionCount = 0;
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 5; j++) {
+            if (board[i][j] === 1) {
+              dandelionCount++;
+            }
+          }
+        }
+        if (dandelionCount > 12) {
+          alert('Game over! Dandelion wins!');
+        } else if (dandelionCount < 12) {
+          alert('Game over! Wind wins!');
+        } else {
+          alert('Game over! It\'s a draw.');
+        }
         createGameBoard();
       }
     }
