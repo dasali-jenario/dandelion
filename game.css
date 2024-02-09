@@ -19,20 +19,17 @@ body {
     margin: auto;
   }
   
-  .cell {
-    width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
-    aspect-ratio: 1 / 1; /* Make the cells square */
-  }
-  
   @media (max-width: 600px) {
     .cell {
       width: 50%; /* On small screens, each cell takes up 50% of the game board's width, so there are 2 cells per row */
     }
   }
 
-.cell {
-    display: block !important;
-    margin: 8px !important;
+  .cell {
+    /* display: block !important; */
+    /* margin: 8px !important; */
+    width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
+    aspect-ratio: 1 / 1; /* Make the cells square */
     background-color: #fff;
     display: flex;
     justify-content: center;
