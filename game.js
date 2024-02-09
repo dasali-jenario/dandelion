@@ -4,7 +4,7 @@ let currentPlayer; // Variable to keep track of the current player
 function createGameBoard() {
   // Initialize the game board and the current player
   board = Array(5).fill().map(() => Array(5).fill(0));
-  currentPlayer = 1;
+  currentPlayer = 'dandelion';
   renderBoard();
 }
 
@@ -20,7 +20,7 @@ function renderBoard() {
         cell.textContent = '🌼'; // Or use an image
       }
       cell.addEventListener('click', () => {
-        if (currentPlayer === 1) {
+        if (currentPlayer === 'dandelion') {
           placeDandelion(i, j);
         } else {
           chooseWindDirection(i, j);
@@ -32,7 +32,7 @@ function renderBoard() {
 }
 
 function placeDandelion(row, col) {
-  // Player 1 places a dandelion at the specified location, if it's empty
+  // Player 'dandelion' places a dandelion at the specified location, if it's empty
   if (board[row][col] === 0) {
     board[row][col] = 1;
     renderBoard();
@@ -41,12 +41,12 @@ function placeDandelion(row, col) {
 }
 
 function chooseWindDirection(row, col) {
-  // Player 2 chooses the wind direction
+  // Player 'wind' chooses the wind direction
   const directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
   for (let direction of directions) {
     let newRow = row + direction[0];
     let newCol = col + direction[1];
-    if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 && board[newRow][newCol] === 1) {
+    if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
       spreadSeeds(direction);
       break;
     }
@@ -91,7 +91,7 @@ function checkGameOver() {
 
 function switchPlayer() {
   // Switch to the other player
-  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
 }
 
 // Call createGameBoard to start the game
