@@ -136,12 +136,12 @@ function updatePlayerTurn() {
 }
 
 function toggleDirectionButtons() {
-  // Enable or disable the direction buttons based on the current player
-  const directionButtons = document.querySelectorAll('.direction');
-  directionButtons.forEach(button => {
-    button.disabled = currentPlayer === 'dandelion';
-  });
-}
+    // Enable or disable the direction buttons based on the current player
+    const directionButtons = document.querySelectorAll('.direction');
+    directionButtons.forEach(button => {
+      button.disabled = currentPlayer === 'dandelion';
+    });
+  }
 
 function resetDirectionButtons() {
   // Reset the background color and disabled state of the direction buttons
