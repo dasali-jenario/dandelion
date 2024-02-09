@@ -16,43 +16,60 @@ function renderBoard() {
     for (let j = 0; j < 5; j++) {
       const cell = document.createElement('div');
       cell.className = 'cell';
-      if (board[i][j] > 0) {
+      if (board[i][j] === 1) {
         cell.textContent = '🌼'; // Or use an image
       }
-      cell.addEventListener('click', () => placeSeed(i, j));
+      cell.addEventListener('click', () => {
+        if (currentPlayer === 1) {
+          placeDandelion(i, j);
+        } else {
+          chooseWindDirection(i, j);
+        }
+      });
       gameBoard.appendChild(cell);
     }
   }
 }
 
-function placeSeed(row, col) {
-  // Place a seed at the specified location, if it's empty
+function placeDandelion(row, col) {
+  // Player 1 places a dandelion at the specified location, if it's empty
   if (board[row][col] === 0) {
-    board[row][col] = currentPlayer;
-    spreadSeeds();
+    board[row][col] = 1;
     renderBoard();
-    if (checkWinCondition()) {
-      alert(`Player ${currentPlayer} wins!`);
-      createGameBoard();
-    } else {
-      switchPlayer();
-    }
+    switchPlayer();
   }
 }
 
-function spreadSeeds() {
-  // Spread seeds from all grown dandelions to adjacent cells
+function chooseWindDirection(row, col) {
+  // Player 2 chooses the wind direction
   const directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
+  for (let direction of directions) {
+    let newRow = row + direction[0];
+    let newCol = col + direction[1];
+    if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 && board[newRow][newCol] === 1) {
+      spreadSeeds(direction);
+      break;
+    }
+  }
+  renderBoard();
+  if (checkGameOver()) {
+    alert(`Player ${currentPlayer} wins!`);
+    createGameBoard();
+  } else {
+    switchPlayer();
+  }
+}
+
+function spreadSeeds(direction) {
+  // Spread seeds from all dandelions to adjacent cells in the chosen direction
   let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
   for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 5; j++) {
-      if (board[i][j] > 0) {
-        for (let direction of directions) {
-          let newRow = i + direction[0];
-          let newCol = j + direction[1];
-          if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
-            newBoard[newRow][newCol] = currentPlayer;
-          }
+      if (board[i][j] === 1) {
+        let newRow = i + direction[0];
+        let newCol = j + direction[1];
+        if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
+          newBoard[newRow][newCol] = 1;
         }
       }
     }
@@ -60,31 +77,16 @@ function spreadSeeds() {
   board = newBoard;
 }
 
-function checkWinCondition() {
-  // Check for a line of five grown dandelions in any direction
-  const directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
+function checkGameOver() {
+  // Check if the game is over (i.e., the board is filled)
   for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 5; j++) {
-      if (board[i][j] > 0) {
-        for (let direction of directions) {
-          let count = 0;
-          for (let step = 0; step < 5; step++) {
-            let row = i + direction[0] * step;
-            let col = j + direction[1] * step;
-            if (row >= 0 && row < 5 && col >= 0 && col < 5 && board[row][col] === currentPlayer) {
-              count++;
-            } else {
-              break;
-            }
-          }
-          if (count === 5) {
-            return true;
-          }
-        }
+      if (board[i][j] === 0) {
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 function switchPlayer() {
