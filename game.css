@@ -37,3 +37,10 @@ body {
 .cell:hover {
     background-color: #f0f0f0;
 }
+
+.direction {
+    font-size: 24px; /* Adjust this value to change the size of the icons */
+    width: 50px; /* Adjust this value to change the width of the buttons */
+    height: 50px; /* Adjust this value to change the height of the buttons */
+    text-align: center;
+  }
