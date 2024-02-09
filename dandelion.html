@@ -1,48 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style>
-    #gameBoard {
-      display: flex;
-      flex-wrap: wrap;
-      width: 250px;
-    }
-    .cell {
-      width: 50px;
-      height: 50px;
-      border: 1px solid black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .dandelion {
-      color: yellow;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Dandelion Game</title>
+    <style>
+        #gameBoard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 10px;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+        }
+        .cell {
+            width: 100%;
+            height: 100%;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .dandelion {
+            color: yellow;
+        }
+    </style>
 </head>
 <body>
-  <div id="gameBoard"></div>
-
-  <script>
-    function createGameBoard() {
-      const board = document.getElementById('gameBoard');
-      for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 5; j++) {
-          const cell = document.createElement('div');
-          cell.className = 'cell';
-          cell.addEventListener('click', () => {
-            if (!cell.classList.contains('dandelion')) {
-              cell.classList.add('dandelion');
-              cell.textContent = '🌼';
-            }
-          });
-          board.appendChild(cell);
-        }
-      }
-    }
-
-    createGameBoard();
-  </script>
+    <div id="gameBoard"></div>
+    <script src="game.js"></script>
 </body>
 </html>
