@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="game.css">
 </head>
 <body>
+    <h2 id="playerTurn"></h2>
+    <div id="directions">
+        <button class="direction" data-dir="-1,0">↑</button>
+        <button class="direction" data-dir="1,0">↓</button>
+        <button class="direction" data-dir="0,-1">←</button>
+        <button class="direction" data-dir="0,1">→</button>
+        <button class="direction" data-dir="-1,-1">↖</button>
+        <button class="direction" data-dir="-1,1">↗</button>
+        <button class="direction" data-dir="1,-1">↙</button>
+        <button class="direction" data-dir="1,1">↘</button>
+    </div>
     <div id="gameBoard"></div>
     <script src="game.js"></script>
 </body>

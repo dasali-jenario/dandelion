@@ -1,10 +1,13 @@
 let board; // 2D array to represent the game board
 let currentPlayer; // Variable to keep track of the current player
+let usedDirections = []; // Array to store used directions
 
 function createGameBoard() {
   // Initialize the game board and the current player
   board = Array(5).fill().map(() => Array(5).fill(0));
   currentPlayer = 'dandelion';
+  usedDirections = [];
+  updatePlayerTurn();
   renderBoard();
 }
 
@@ -22,8 +25,6 @@ function renderBoard() {
       cell.addEventListener('click', () => {
         if (currentPlayer === 'dandelion') {
           placeDandelion(i, j);
-        } else {
-          chooseWindDirection(i, j);
         }
       });
       gameBoard.appendChild(cell);
@@ -40,17 +41,15 @@ function placeDandelion(row, col) {
   }
 }
 
-function chooseWindDirection(row, col) {
+function chooseWindDirection(event) {
   // Player 'wind' chooses the wind direction
-  const directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
-  for (let direction of directions) {
-    let newRow = row + direction[0];
-    let newCol = col + direction[1];
-    if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
-      spreadSeeds(direction);
-      break;
-    }
+  const direction = event.target.dataset.dir.split(',').map(Number);
+  if (usedDirections.includes(event.target.dataset.dir)) {
+    alert('This direction has already been used!');
+    return;
   }
+  usedDirections.push(event.target.dataset.dir);
+  spreadSeeds(direction);
   renderBoard();
   if (checkGameOver()) {
     alert(`Player ${currentPlayer} wins!`);
@@ -92,7 +91,20 @@ function checkGameOver() {
 function switchPlayer() {
   // Switch to the other player
   currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
+  updatePlayerTurn();
+}
+
+function updatePlayerTurn() {
+  // Update the displayed player turn
+  const playerTurn = document.getElementById('playerTurn');
+  playerTurn.textContent = `Current Player: ${currentPlayer}`;
 }
 
 // Call createGameBoard to start the game
 createGameBoard();
+
+// Add event listeners to the direction buttons
+const directionButtons = document.querySelectorAll('.direction');
+directionButtons.forEach(button => {
+  button.addEventListener('click', chooseWindDirection);
+});
