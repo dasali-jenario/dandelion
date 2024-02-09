@@ -49,6 +49,7 @@ function chooseWindDirection(event) {
     return;
   }
   usedDirections.push(event.target.dataset.dir);
+  event.target.style.backgroundColor = 'red'; // Mark the used direction in red
   spreadSeeds(direction);
   renderBoard();
   if (checkGameOver()) {
