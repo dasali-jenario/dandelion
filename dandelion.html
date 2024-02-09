@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dandelions Game</title>
     <link rel="stylesheet" href="game.css">
 </head>
 <body>
-    <div id="info">
+    <div id="gameBoard"></div>
+
+    <div id="infoContainer">
         <div id="playerTurn"></div>
         <div id="currentRound"></div>
+        <div id="directionButtons">
+            <button class="direction" data-dir="-1,0">↑</button>
+            <button class="direction" data-dir="1,0">↓</button>
+            <button class="direction" data-dir="0,-1">←</button>
+            <button class="direction" data-dir="0,1">→</button>
+            <button class="direction" data-dir="-1,-1">↖</button>
+            <button class="direction" data-dir="-1,1">↗</button>
+            <button class="direction" data-dir="1,-1">↙</button>
+            <button class="direction" data-dir="1,1">↘</button>
+        </div>
+        <button id="restartButton">Restart Game</button>
     </div>
-    <div id="directions">
-        <button class="direction" data-dir="-1,0">↑</button>
-        <button class="direction" data-dir="1,0">↓</button>
-        <button class="direction" data-dir="0,-1">←</button>
-        <button class="direction" data-dir="0,1">→</button>
-        <button class="direction" data-dir="-1,-1">↖</button>
-        <button class="direction" data-dir="-1,1">↗</button>
-        <button class="direction" data-dir="1,-1">↙</button>
-        <button class="direction" data-dir="1,1">↘</button>
-    </div>
-    <button id="restartButton">Restart Game</button>
-    <div id="gameBoard"></div>
+
     <script src="game.js"></script>
 </body>
 </html>

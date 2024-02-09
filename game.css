@@ -43,6 +43,12 @@ body {
     background-color: #f0f0f0;
 }
 
+#infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
 .direction {
     font-size: 24px; /* Adjust this value to change the size of the icons */
     width: 50px; /* Adjust this value to change the width of the buttons */
@@ -50,6 +56,6 @@ body {
     text-align: center;
 }
 
-#info > div {
+#infoContainer > div {
     margin-bottom: 20px; /* Adjust this value to change the space between the elements */
 }
