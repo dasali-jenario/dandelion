@@ -146,3 +146,7 @@ const directionButtons = document.querySelectorAll('.direction');
 directionButtons.forEach(button => {
   button.addEventListener('click', chooseWindDirection);
 });
+
+// Add event listener to the restart button
+const restartButton = document.getElementById('restartButton');
+restartButton.addEventListener('click', createGameBoard);
