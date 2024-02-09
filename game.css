@@ -17,20 +17,13 @@ body {
     justify-content: center;
     max-width: 500px; /* Adjust this value to change the maximum size of the game board */
     margin: auto;
-  }
-  
-  @media (max-width: 600px) {
-    .cell {
-      width: 50%; /* On small screens, each cell takes up 50% of the game board's width, so there are 2 cells per row */
-    }
-  }
+}
 
-  .cell {
-    /* display: block !important; */
-    /* margin: 8px !important; */
+.cell {
     width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
     aspect-ratio: 1 / 1; /* Make the cells square */
-    background-color: #fff;
+    background-color: #32CD32; /* Grass green */
+    border: 1px solid #0000FF; /* Blue border */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,6 +31,12 @@ body {
     font-size: 2em;
     user-select: none;
     transition: background-color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+    .cell {
+        width: 50%; /* On small screens, each cell takes up 50% of the game board's width, so there are 2 cells per row */
+    }
 }
 
 .cell:hover {
@@ -49,8 +48,8 @@ body {
     width: 50px; /* Adjust this value to change the width of the buttons */
     height: 50px; /* Adjust this value to change the height of the buttons */
     text-align: center;
-  }
+}
 
-  #info > div {
+#info > div {
     margin-bottom: 20px; /* Adjust this value to change the space between the elements */
-  }
+}
