@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #gameBoard {
+      display: flex;
+      flex-wrap: wrap;
+      width: 250px;
+    }
+    .cell {
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .dandelion {
+      color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameBoard"></div>
+
+  <script>
+    function createGameBoard() {
+      const board = document.getElementById('gameBoard');
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.addEventListener('click', () => {
+            if (!cell.classList.contains('dandelion')) {
+              cell.classList.add('dandelion');
+              cell.textContent = '🌼';
+            }
+          });
+          board.appendChild(cell);
+        }
+      }
+    }
+
+    createGameBoard();
+  </script>
+</body>
+</html>
