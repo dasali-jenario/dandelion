@@ -3,14 +3,16 @@ let currentPlayer; // Variable to keep track of the current player
 let usedDirections = []; // Array to store used directions
 
 function createGameBoard() {
-  // Initialize the game board and the current player
-  board = Array(5).fill().map(() => Array(5).fill(0));
-  currentPlayer = 'dandelion';
-  usedDirections = [];
-  updatePlayerTurn();
-  renderBoard();
-  resetDirectionButtons();
-}
+    // Initialize the game board, the current player, and the current round
+    board = Array(5).fill().map(() => Array(5).fill(0));
+    currentPlayer = 'dandelion';
+    usedDirections = [];
+    currentRound = 1;
+    updatePlayerTurn();
+    updateCurrentRound();
+    renderBoard();
+    resetDirectionButtons();
+  }
 
 function renderBoard() {
   // Update the user interface to reflect the current state of the game board
@@ -93,11 +95,25 @@ function checkGameOver() {
 }
 
 function switchPlayer() {
-  // Switch to the other player
-  currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
-  updatePlayerTurn();
-  toggleDirectionButtons();
-}
+    // Switch to the other player
+    currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
+    updatePlayerTurn();
+    toggleDirectionButtons();
+    if (currentPlayer === 'dandelion') {
+      currentRound++;
+      updateCurrentRound();
+      if (currentRound > 7) {
+        alert('Game over! The maximum number of rounds has been reached.');
+        createGameBoard();
+      }
+    }
+  }
+  
+  function updateCurrentRound() {
+    // Update the displayed current round
+    const currentRoundElement = document.getElementById('currentRound');
+    currentRoundElement.textContent = `Round ${currentRound}/7`;
+  }
 
 function updatePlayerTurn() {
   // Update the displayed player turn
