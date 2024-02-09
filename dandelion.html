@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="game.css">
 </head>
 <body>
-    <div id="playerTurn"></div>
-    <div id="currentRound"></div>
-    
+    <div id="info">
+        <div id="playerTurn"></div>
+        <div id="currentRound"></div>
+    </div>
     <div id="directions">
         <button class="direction" data-dir="-1,0">↑</button>
         <button class="direction" data-dir="1,0">↓</button>
@@ -20,7 +21,6 @@
         <button class="direction" data-dir="1,-1">↙</button>
         <button class="direction" data-dir="1,1">↘</button>
     </div>
-    
     <button id="restartButton">Restart Game</button>
     <div id="gameBoard"></div>
     <script src="game.js"></script>

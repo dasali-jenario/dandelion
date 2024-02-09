@@ -12,16 +12,23 @@ body {
 }
 
 #gameBoard {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 10px;
-    width: 500px;
-    height: 500px;
-    background-color: #4caf50;
-    padding: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px; /* Adjust this value to change the maximum size of the game board */
+    margin: auto;
+  }
+  
+  .cell {
+    width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
+    aspect-ratio: 1 / 1; /* Make the cells square */
+  }
+  
+  @media (max-width: 600px) {
+    .cell {
+      width: 50%; /* On small screens, each cell takes up 50% of the game board's width, so there are 2 cells per row */
+    }
+  }
 
 .cell {
     background-color: #fff;
@@ -43,4 +50,8 @@ body {
     width: 50px; /* Adjust this value to change the width of the buttons */
     height: 50px; /* Adjust this value to change the height of the buttons */
     text-align: center;
+  }
+
+  #info > div {
+    margin-bottom: 20px; /* Adjust this value to change the space between the elements */
   }
