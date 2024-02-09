@@ -31,6 +31,8 @@ body {
   }
 
 .cell {
+    display: block !important;
+    margin: 8px !important;
     background-color: #fff;
     display: flex;
     justify-content: center;
