@@ -9,6 +9,7 @@ function createGameBoard() {
   usedDirections = [];
   updatePlayerTurn();
   renderBoard();
+  resetDirectionButtons();
 }
 
 function renderBoard() {
@@ -68,8 +69,10 @@ function spreadSeeds(direction) {
       if (board[i][j] === 1) {
         let newRow = i + direction[0];
         let newCol = j + direction[1];
-        if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
+        while (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
           newBoard[newRow][newCol] = 1;
+          newRow += direction[0];
+          newCol += direction[1];
         }
       }
     }
@@ -93,12 +96,30 @@ function switchPlayer() {
   // Switch to the other player
   currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
   updatePlayerTurn();
+  toggleDirectionButtons();
 }
 
 function updatePlayerTurn() {
   // Update the displayed player turn
   const playerTurn = document.getElementById('playerTurn');
   playerTurn.textContent = `Current Player: ${currentPlayer}`;
+}
+
+function toggleDirectionButtons() {
+  // Enable or disable the direction buttons based on the current player
+  const directionButtons = document.querySelectorAll('.direction');
+  directionButtons.forEach(button => {
+    button.disabled = currentPlayer === 'dandelion';
+  });
+}
+
+function resetDirectionButtons() {
+  // Reset the background color and disabled state of the direction buttons
+  const directionButtons = document.querySelectorAll('.direction');
+  directionButtons.forEach(button => {
+    button.style.backgroundColor = '';
+    button.disabled = false;
+  });
 }
 
 // Call createGameBoard to start the game
