@@ -30,7 +30,7 @@ body {
     box-sizing: border-box;
     width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
     height: 20%; /* Each cell takes up 20% of the game board's height, so there are 5 cells per column */
-    background-color: #60a360; /* Grass green */
+    background-color: #a5dda5; /* Grass green */
     border: 1px solid #0000FF; /* Blue border */
     display: flex;
     justify-content: center;
