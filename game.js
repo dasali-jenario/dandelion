@@ -38,13 +38,13 @@ function renderBoard() {
 }
 
 function placeDandelion(row, col) {
-    // Player 'dandelion' places a flower at the specified location, if it's empty or has a seed
-    if (board[row][col] !== 2) {
-        board[row][col] = 2;
-        renderBoard();
-        switchPlayer();
+    // Player 'dandelion' places a flower at the specified location, if it's empty or has a seed, and only when it's 'dandelion's' turn
+    if (currentPlayer === 'dandelion' && board[row][col] !== 2) {
+      board[row][col] = 2;
+      renderBoard();
+      switchPlayer();
     }
-}
+  }
 
 function chooseWindDirection(event) {
     // Player 'wind' chooses the wind direction
@@ -136,12 +136,12 @@ function updatePlayerTurn() {
 }
 
 function toggleDirectionButtons() {
-    // Enable or disable the direction buttons based on the current player
+    // Enable the direction buttons when it's 'wind's' turn and disable them when it's 'dandelion's' turn
     const directionButtons = document.querySelectorAll('.direction');
     directionButtons.forEach(button => {
-        button.disabled = currentPlayer === 'dandelion';
+      button.disabled = currentPlayer === 'dandelion';
     });
-}
+  }
 
 function resetDirectionButtons() {
     // Reset the background color and disabled state of the direction buttons
