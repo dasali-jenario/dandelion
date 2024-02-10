@@ -20,6 +20,7 @@ body {
 }
 
 .cell {
+    box-sizing: border-box;
     width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
     aspect-ratio: 1 / 1; /* Make the cells square */
     background-color: #32CD32; /* Grass green */
