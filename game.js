@@ -104,28 +104,24 @@ function switchPlayer() {
     updatePlayerTurn();
     toggleDirectionButtons();
     if (currentPlayer === 'dandelion') {
-        currentRound++;
-        updateCurrentRound();
-        if (currentRound > 7) {
-            let dandelionCount = 0;
-            for (let i = 0; i < 5; i++) {
-                for (let j = 0; j < 5; j++) {
-                    if (board[i][j] === 2) {
-                        dandelionCount++;
-                    }
-                }
+      currentRound++;
+      updateCurrentRound();
+      if (currentRound > 7) {
+        let emptyCount = 0;
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 5; j++) {
+            if (board[i][j] === 0) {
+              emptyCount++;
             }
-            if (dandelionCount > 12) {
-                alert('Game over! Dandelion wins!');
-            } else if (dandelionCount < 12) {
-                alert('Game over! Wind wins!');
-            } else {
-                alert('Game over! It\'s a draw.');
-            }
-            createGameBoard();
+          }
         }
+        if (emptyCount > 0) {
+          alert('Game over! Dandelion wins!');
+          createGameBoard();
+        }
+      }
     }
-}
+  }
 
 function updateCurrentRound() {
     // Update the displayed current round
@@ -167,3 +163,6 @@ directionButtons.forEach(button => {
 
 // Add event listener to the restart button
 const restartButton = document.getElementById('restartButton');
+restartButton.addEventListener('click', () => {
+  createGameBoard();
+});
