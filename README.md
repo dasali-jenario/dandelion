@@ -1,6 +1,6 @@
 This game has been inspired by Ben Orlin **https://mathwithbaddrawings.com/wp-content/uploads/2020/06/game-5-dandelions-1.pdf**
 
-#Dandelion vs Wind#
+##Dandelion vs Wind##
 Dandelion vs Wind is a simple, interactive game where two players, 'Dandelion' and 'Wind', take turns to fill a 5x5 grid.
 
 *How to Play*
