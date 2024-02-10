@@ -3,16 +3,15 @@ let currentPlayer; // Variable to keep track of the current player
 let usedDirections = []; // Array to store used directions
 
 function createGameBoard() {
-    // Initialize the game board, the current player, and the current round
+    // Create a new game board and reset the game state
     board = Array(5).fill().map(() => Array(5).fill(0));
     currentPlayer = 'dandelion';
-    usedDirections = [];
     currentRound = 1;
     updatePlayerTurn();
     updateCurrentRound();
     renderBoard();
-    resetDirectionButtons();
-}
+    toggleDirectionButtons(); // Disable the direction buttons at the start of the game
+  }
 
 function renderBoard() {
     // Update the user interface to reflect the current state of the game board
