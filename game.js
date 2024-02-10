@@ -66,7 +66,7 @@ function chooseWindDirection(event) {
 }
 
 function spreadSeeds(direction) {
-    // Spread seeds from each flower on the board to all cells in the chosen direction
+    // Spread seeds from each flower on the board to all empty cells in the chosen direction
     let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
     for (let i = 0; i < 5; i++) {
       for (let j = 0; j < 5; j++) {
@@ -74,7 +74,9 @@ function spreadSeeds(direction) {
           let newRow = i + direction[0];
           let newCol = j + direction[1];
           while (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
-            newBoard[newRow][newCol] = 1;
+            if (newBoard[newRow][newCol] === 0) { // Only spread seeds to empty cells
+              newBoard[newRow][newCol] = 1;
+            }
             newRow += direction[0];
             newCol += direction[1];
           }
