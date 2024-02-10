@@ -69,19 +69,19 @@ function spreadSeeds(direction) {
     // Spread seeds from the dandelion that the wind hits to adjacent cells in the chosen direction
     let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
     for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 5; j++) {
-            if (board[i][j] === 2) {
-                let newRow = i + direction[0];
-                let newCol = j + direction[1];
-                if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
-                    newBoard[newRow][newCol] = 1;
-                    newBoard[i][j] = 0; // Remove the flower after spreading seeds
-                }
-            }
+      for (let j = 0; j < 5; j++) {
+        if (board[i][j] === 2) {
+          let newRow = i + direction[0];
+          let newCol = j + direction[1];
+          if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
+            newBoard[newRow][newCol] = 1;
+            // The dandelion remains on the board after spreading seeds
+          }
         }
+      }
     }
     board = newBoard;
-}
+  }
 
 function checkGameOver() {
     // Check if the game is over (i.e., the board is filled with flowers and seeds)
