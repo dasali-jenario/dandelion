@@ -21,16 +21,15 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 500px; /* Adjust this value to change the maximum size of the game board */
-    min-width: 250px; /* Minimum width of the game board */
-    min-height: 250px; /* Minimum height of the game board */
+    width: 250px; /* Fixed width of the game board */
+    height: 250px; /* Fixed height of the game board */
     margin: auto;
 }
 
 .cell {
     box-sizing: border-box;
     width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
-    aspect-ratio: 1 / 1; /* Make the cells square */
+    height: 20%; /* Each cell takes up 20% of the game board's height, so there are 5 cells per column */
     background-color: #32CD32; /* Grass green */
     border: 1px solid #0000FF; /* Blue border */
     display: flex;
