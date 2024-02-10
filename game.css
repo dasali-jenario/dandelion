@@ -16,6 +16,8 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     max-width: 500px; /* Adjust this value to change the maximum size of the game board */
+    min-width: 250px; /* Minimum width of the game board */
+    min-height: 250px; /* Minimum height of the game board */
     margin: auto;
 }
 
