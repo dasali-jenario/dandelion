@@ -9,6 +9,12 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column; /* Stack the game board and the information container vertically */
+}
+
+#gameBoard, #infoContainer {
+    max-height: 50vh; /* Each of them takes up to half of the viewport height */
+    overflow: auto; /* Add a scrollbar if the content exceeds the maximum height */
 }
 
 #gameBoard {
