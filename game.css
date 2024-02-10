@@ -71,5 +71,5 @@ body {
 #title {
     text-align: center;
     font-size: 2em;
-    margin-bottom: 20px;
+    margin-bottom: calc(min(15vh, 150px)); /* Set the bottom margin to the smaller of 15% of the viewport height and 150 pixels */
 }
