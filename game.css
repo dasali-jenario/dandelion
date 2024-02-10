@@ -67,3 +67,9 @@ body {
 #infoContainer > div {
     margin-bottom: 20px; /* Adjust this value to change the space between the elements */
 }
+
+#title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
