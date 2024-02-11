@@ -52,6 +52,11 @@ function createGameBoard() {
         }
     }
     renderBoard();
+    toggleDirectionButtons();
+    updatePlayerTurn();
+    updateCurrentRound();
+    resetDirectionButtons();
+
 }
 
 function renderBoard() {
@@ -168,8 +173,7 @@ function checkGameOver() {
 function switchPlayer() {
     currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
     document.getElementById('playerTurn').textContent = `Current Player: ${currentPlayer}`;
-  updatePlayerTurn();
-  toggleDirectionButtons();
+    toggleDirectionButtons();
   if (currentPlayer === 'dandelion') {
       currentRound++;
       updateCurrentRound();
@@ -206,9 +210,9 @@ function toggleDirectionButtons() {
     // Enable the direction buttons when it's 'wind's' turn and disable them when it's 'dandelion's' turn
     const directionButtons = document.querySelectorAll('.direction');
     directionButtons.forEach(button => {
-      button.disabled = currentPlayer === 'dandelion';
+        button.disabled = currentPlayer === 'dandelion';
     });
-  }
+}
 
   function resetDirectionButtons() {
     // Reset the background color and disabled state of the direction buttons
