@@ -1,24 +1,52 @@
 let board; // 2D array to represent the game board
-let currentPlayer; // Variable to keep track of the current player
+let currentPlayer = 'dandelion'; // Variable to keep track of the current player
 let usedDirections = []; // Array to store used directions
+let gridSize = 5; // Default grid size
+let isExpertMode = false;
+let currentRound = 1;
+
+// Add event listener to the mode switch button
+const modeSwitch = document.getElementById('modeSwitch');
+modeSwitch.addEventListener('click', () => {
+    isExpertMode = !isExpertMode;
+    document.getElementById('gridSizeOptions').style.display = isExpertMode ? 'block' : 'none';
+    modeSwitch.textContent = isExpertMode ? 'Switch to Normal Mode' : 'Switch to Expert Mode';
+    if (!isExpertMode) {
+        gridSize = 5; // Reset grid size to 5 in normal mode
+    }
+    createGameBoard();
+});
+
+// Add event listeners to the grid size options
+const gridSizeOptions = document.getElementsByName('gridSize');
+gridSizeOptions.forEach(option => {
+    option.addEventListener('change', () => {
+        gridSize = parseInt(option.value);
+        createGameBoard();
+    });
+});
 
 function createGameBoard() {
-    // Create a new game board and reset the game state
-    board = Array(5).fill().map(() => Array(5).fill(0));
-    currentPlayer = 'dandelion';
-    currentRound = 1;
-    updatePlayerTurn();
-    updateCurrentRound();
+    board = new Array(gridSize).fill(0).map(() => new Array(gridSize).fill(0)); // Initialize the game board
+    const gameBoard = document.getElementById('gameBoard');
+    gameBoard.innerHTML = ''; // Clear the game board
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.addEventListener('click', () => placeDandelion(i, j));
+            gameBoard.appendChild(cell);
+        }
+    }
     renderBoard();
-    toggleDirectionButtons(); // Disable the direction buttons at the start of the game
-  }
+}
 
 function renderBoard() {
     // Update the user interface to reflect the current state of the game board
     const gameBoard = document.getElementById('gameBoard');
     gameBoard.innerHTML = ''; // Clear the game board
-    for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 5; j++) {
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
             const cell = document.createElement('div');
             cell.className = 'cell';
             if (board[i][j] === 1) {

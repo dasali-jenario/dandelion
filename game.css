@@ -1,75 +1,36 @@
-/* game.css */
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column; /* Stack the game board and the information container vertically */
-}
-
-#gameBoard, #infoContainer {
-    max-height: 50vh; /* Each of them takes up to half of the viewport height */
-    overflow: auto; /* Add a scrollbar if the content exceeds the maximum height */
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
 }
 
 #gameBoard {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 250px; /* Fixed width of the game board */
-    height: 250px; /* Fixed height of the game board */
-    margin: auto;
+    display: grid;
+    grid-gap: 1px;
+    width: 500px;
+    height: 500px;
 }
 
 .cell {
-    box-sizing: border-box;
-    width: 20%; /* Each cell takes up 20% of the game board's width, so there are 5 cells per row */
-    height: 20%; /* Each cell takes up 20% of the game board's height, so there are 5 cells per column */
-    background-color: #a5dda5; /* Grass green */
-    border: 1px solid #0000FF; /* Blue border */
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    font-size: 2em;
-    user-select: none;
-    transition: background-color 0.3s ease;
+    background-color: #fff;
+    border: 1px solid #000;
 }
 
-@media (max-width: 600px) {
-    .cell {
-        width: 50%; /* On small screens, each cell takes up 50% of the game board's width, so there are 2 cells per row */
-    }
-}
-
-.cell:hover {
-    background-color: #f0f0f0;
-}
-
-#infoContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+#modeSwitch, #restartButton {
+    margin: 10px;
 }
 
 .direction {
-    font-size: 24px; /* Adjust this value to change the size of the icons */
-    width: 50px; /* Adjust this value to change the width of the buttons */
-    height: 50px; /* Adjust this value to change the height of the buttons */
-    text-align: center;
+    margin: 5px;
 }
 
-#infoContainer > div {
-    margin-bottom: 20px; /* Adjust this value to change the space between the elements */
-}
-
-#title {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: calc(min(50px)); /* Set the bottom margin to the smaller of 15% of the viewport height and 150 pixels */
+#gridSizeOptions {
+    display: none;
 }
