@@ -15,15 +15,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#gameBoard.normal {
-    background-color: white;
-    border-color: green;
-}
-
-#gameBoard.expert {
-    border-color: red;
-}
-
 #gameBoard {
     display: grid;
     grid-gap: 1px;
@@ -37,6 +28,14 @@ body {
     align-items: center;
     background-color: #fff;
     border: 1px solid #000;
+}
+
+#gameBoard.normal .cell {
+    border-color: green;
+}
+
+#gameBoard.expert .cell {
+    border-color: red;
 }
 
 #modeSwitch, #restartButton {
