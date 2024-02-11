@@ -20,9 +20,9 @@ If after 7 rounds not all fields of the grid are covered with flowers or seeds, 
 
 **Obstacles**: These are elements on the grid that neither seeds nor dandelions can occupy or move through. When the "Wind" player chooses a direction, the seeds spread in that direction but stop when they encounter an obstacle. This means that the "Wind" player needs to choose the direction carefully, taking into account the positions of the obstacles, to maximize the spread of the seeds. The number of obstacles varies based on the grid size:
 
-7x7 grid: 1 obstacle
-10x10 grid: 2 obstacles
-15x15 grid: 3 obstacles
+- 7x7 grid: 1 obstacle
+- 10x10 grid: 2 obstacles
+- 15x15 grid: 3 obstacles
 
 
 
