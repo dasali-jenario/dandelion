@@ -30,6 +30,8 @@ function createGameBoard() {
     board = new Array(gridSize).fill(0).map(() => new Array(gridSize).fill(0)); // Initialize the game board
     const gameBoard = document.getElementById('gameBoard');
     gameBoard.innerHTML = ''; // Clear the game board
+    gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`; // Set the number of columns based on the grid size
+    gameBoard.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`; // Set the number of rows based on the grid size
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             const cell = document.createElement('div');
@@ -93,62 +95,59 @@ function chooseWindDirection(event) {
 }
 
 function spreadSeeds(direction) {
-    // Spread seeds from each flower on the board to all empty cells in the chosen direction
-    let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 5; j++) {
-        if (board[i][j] === 2) {
-          let newRow = i + direction[0];
-          let newCol = j + direction[1];
-          while (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
-            if (newBoard[newRow][newCol] === 0) { // Only spread seeds to empty cells
-              newBoard[newRow][newCol] = 1;
-            }
-            newRow += direction[0];
-            newCol += direction[1];
+  let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
+  for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+          if (board[i][j] === 2) {
+              let newRow = i + direction[0];
+              let newCol = j + direction[1];
+              while (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                  if (newBoard[newRow][newCol] === 0) { // Only spread seeds to empty cells
+                      newBoard[newRow][newCol] = 1;
+                  }
+                  newRow += direction[0];
+                  newCol += direction[1];
+              }
           }
-        }
       }
-    }
-    board = newBoard;
   }
+  board = newBoard;
+}
 
 function checkGameOver() {
-    // Check if the game is over (i.e., the board is filled with flowers and seeds)
-    for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 5; j++) {
-            if (board[i][j] === 0) {
-                return false;
-            }
-        }
-    }
-    return true;
+  for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+          if (board[i][j] === 0) {
+              return false;
+          }
+      }
+  }
+  return true;
 }
 
 function switchPlayer() {
-    // Switch to the other player
-    currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
-    updatePlayerTurn();
-    toggleDirectionButtons();
-    if (currentPlayer === 'dandelion') {
+  currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
+  updatePlayerTurn();
+  toggleDirectionButtons();
+  if (currentPlayer === 'dandelion') {
       currentRound++;
       updateCurrentRound();
       if (currentRound > 7) {
-        let emptyCount = 0;
-        for (let i = 0; i < 5; i++) {
-          for (let j = 0; j < 5; j++) {
-            if (board[i][j] === 0) {
-              emptyCount++;
-            }
+          let emptyCount = 0;
+          for (let i = 0; i < gridSize; i++) {
+              for (let j = 0; j < gridSize; j++) {
+                  if (board[i][j] === 0) {
+                      emptyCount++;
+                  }
+              }
           }
-        }
-        if (emptyCount > 0) {
-          alert('Game over! Dandelion wins!');
-          createGameBoard();
-        }
+          if (emptyCount > 0) {
+              alert('Game over! Dandelion wins!');
+              createGameBoard();
+          }
       }
-    }
   }
+}
 
 function updateCurrentRound() {
     // Update the displayed current round
