@@ -5,6 +5,11 @@ let gridSize = 5; // Default grid size
 let isExpertMode = false;
 let currentRound = 1;
 
+window.onload = function() {
+    // Call createGameBoard to start the game
+    createGameBoard();
+};
+
 // Add event listener to the mode switch button
 const modeSwitch = document.getElementById('modeSwitch');
 modeSwitch.addEventListener('click', () => {
@@ -51,15 +56,61 @@ function createGameBoard() {
             gameBoard.appendChild(cell);
         }
     }
+    if (isExpertMode) {
+        placeRandomObstacles();
+    }
     renderBoard();
-    toggleDirectionButtons();
     updatePlayerTurn();
     updateCurrentRound();
     resetDirectionButtons();
+}
 
+function placeRandomObstacles() {
+    let numObstacles;
+    switch (gridSize) {
+        case 7:
+            numObstacles = 1;
+            break;
+        case 10:
+            numObstacles = 2;
+            break;
+        case 15:
+            numObstacles = 3;
+            break;
+        default:
+            numObstacles = 0;
+    }
+
+    for (let i = 0; i < numObstacles; i++) {
+        let row, col;
+        do {
+            row = Math.floor(Math.random() * gridSize);
+            col = Math.floor(Math.random() * gridSize);
+        } while (board[row][col].state !== 0);
+        board[row][col] = {state: 3, hits: 0}; // state 3 represents an obstacle
+    }
 }
 
 function renderBoard() {
+    const gameBoard = document.getElementById('gameBoard');
+    gameBoard.innerHTML = ''; // Clear the game board
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            if (board[i][j].state === 1) {
+                cell.textContent = '🌱'; // Or use an image for seed
+            } else if (board[i][j].state === 2) {
+                cell.textContent = '🌼'; // Or use an image for flower
+            } else if (board[i][j].state === 3) {
+                cell.textContent = '🌳'; // Or use an image for obstacle
+            }
+            cell.addEventListener('click', () => placeDandelion(i, j));
+            gameBoard.appendChild(cell);
+        }
+    }
+}
+
     // Update the user interface to reflect the current state of the game board
     const gameBoard = document.getElementById('gameBoard');
     gameBoard.innerHTML = ''; // Clear the game board
@@ -80,59 +131,58 @@ function renderBoard() {
             gameBoard.appendChild(cell);
         }
     }
-}
 
-function placeDandelion(row, col) {
-    if (currentPlayer === 'dandelion' && board[row][col].state !== 2) {
-        board[row][col] = {state: 2, hits: 0};
+
+    function placeDandelion(row, col) {
+        if (currentPlayer === 'dandelion' && board[row][col].state === 0) {
+            board[row][col] = {state: 2, hits: 0};
+            renderBoard();
+            switchPlayer();
+        }
+    }
+
+    function chooseWindDirection(event) {
+        // Player 'wind' chooses the wind direction
+        const direction = event.target.dataset.dir.split(',').map(Number);
+        const directionString = direction.toString(); // Convert the direction array to a string for comparison
+        if (usedDirections.includes(directionString)) {
+            alert('This direction has already been used!');
+            return;
+        }
+        usedDirections.push(directionString);
+        event.target.style.backgroundColor = 'red'; // Mark the used direction in red
+        spreadSeeds(direction);
         renderBoard();
-        switchPlayer();
+        if (checkGameOver()) {
+            alert(`Player ${currentPlayer} wins!`);
+            createGameBoard();
+        } else {
+            switchPlayer();
+        }
     }
-}
 
-function chooseWindDirection(event) {
-    // Player 'wind' chooses the wind direction
-    const direction = event.target.dataset.dir.split(',').map(Number);
-    if (usedDirections.includes(event.target.dataset.dir)) {
-        alert('This direction has already been used!');
-        return;
-    }
-    usedDirections.push(event.target.dataset.dir);
-    event.target.style.backgroundColor = 'red'; // Mark the used direction in red
-    spreadSeeds(direction);
-    renderBoard();
-    if (checkGameOver()) {
-        alert(`Player ${currentPlayer} wins!`);
-        createGameBoard();
-    } else {
-        switchPlayer();
-    }
-}
-
-function spreadSeeds(direction) {
-    let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
-    for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-            if (board[i][j].state === 2) {
-                let newRow = i + direction[0];
-                let newCol = j + direction[1];
-                while (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
-                    if (newBoard[newRow][newCol].state === 0) { // Only spread seeds to empty cells
-                        newBoard[newRow][newCol] = {state: 1, hits: 1};
-                    } else if (newBoard[newRow][newCol].state === 1) { // If the cell already has a seed
-                        newBoard[newRow][newCol].hits++;
-                        if (isExpertMode && newBoard[newRow][newCol].hits === 2) { // If the seed is hit for the second time and the game is in Expert mode
-                            newBoard[newRow][newCol].state = 2; // Turn it into a flower
+    function spreadSeeds(direction) {
+        let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
+        for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+                if (board[i][j].state === 2) { // If the cell contains a dandelion
+                    let newRow = i + direction[0];
+                    let newCol = j + direction[1];
+                    while (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize && newBoard[newRow][newCol].state !== 3) {
+                        if (newBoard[newRow][newCol].state === 0 || newBoard[newRow][newCol].state === 1) { // If the cell is empty or contains a seed
+                            newBoard[newRow][newCol] = {state: 1, hits: newBoard[newRow][newCol].hits + 1}; // Spread a seed to the cell
+                            if (isExpertMode && newBoard[newRow][newCol].hits === 2) { // If the seed is hit for the second time and the game is in Expert mode
+                                newBoard[newRow][newCol].state = 2; // Turn it into a flower
+                            }
                         }
+                        newRow += direction[0];
+                        newCol += direction[1];
                     }
-                    newRow += direction[0];
-                    newCol += direction[1];
                 }
             }
         }
+        board = newBoard; // Update the board
     }
-    board = newBoard;
-}
 
 function checkGameOver() {
     // Check if all cells contain a flower
@@ -229,6 +279,22 @@ createGameBoard();
 // Add event listeners to the direction buttons
 const directionButtons = document.querySelectorAll('.direction');
 directionButtons.forEach(button => {
+    // Set the data-dir attribute based on the button's id
+    switch (button.id) {
+        case 'up':
+            button.dataset.dir = '-1,0';
+            break;
+        case 'down':
+            button.dataset.dir = '1,0';
+            break;
+        case 'left':
+            button.dataset.dir = '0,-1';
+            break;
+        case 'right':
+            button.dataset.dir = '0,1';
+            break;
+        // Add cases for diagonal directions if needed
+    }
     button.addEventListener('click', chooseWindDirection);
 });
 
