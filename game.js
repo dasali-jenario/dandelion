@@ -8,6 +8,25 @@ let currentRound = 1;
 window.onload = function() {
     // Call createGameBoard to start the game
     createGameBoard();
+
+    // Add event listeners to the direction buttons
+    const directionButtons = document.querySelectorAll('.direction');
+    directionButtons.forEach(button => {
+        button.addEventListener('click', chooseWindDirection);
+    });
+
+    // Add event listener to the restart button
+    const restartButton = document.getElementById('restartButton');
+    restartButton.addEventListener('click', () => {
+        createGameBoard();
+    });
+
+    // Set initial mode to Normal
+    document.getElementById('mode').textContent = 'Normal Mode';
+
+    // Set initial grid size to 5x5
+    gridSize = 5;
+    createGameBoard();
 };
 
 // Add event listener to the mode switch button
