@@ -1,3 +1,10 @@
+#title {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 body {
     display: flex;
     justify-content: center;
@@ -6,6 +13,15 @@ body {
     margin: 0;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
+}
+
+#gameBoard.normal {
+    background-color: white;
+    border-color: green;
+}
+
+#gameBoard.expert {
+    border-color: red;
 }
 
 #gameBoard {

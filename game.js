@@ -9,10 +9,15 @@ let currentRound = 1;
 const modeSwitch = document.getElementById('modeSwitch');
 modeSwitch.addEventListener('click', () => {
     isExpertMode = !isExpertMode;
+    const gameBoard = document.getElementById('gameBoard');
+    gameBoard.className = isExpertMode ? 'expert' : 'normal';
     document.getElementById('gridSizeOptions').style.display = isExpertMode ? 'block' : 'none';
     modeSwitch.textContent = isExpertMode ? 'Switch to Normal Mode' : 'Switch to Expert Mode';
-    if (!isExpertMode) {
-        gridSize = 5; // Reset grid size to 5 in normal mode
+    document.getElementById('mode').textContent = isExpertMode ? 'Expert Mode' : 'Normal Mode';
+    if (isExpertMode) {
+        gridSize = 7; // Set grid size to 7x7 in expert mode
+    } else {
+        gridSize = 5; // Reset grid size to 5x5 in normal mode
     }
     createGameBoard();
 });
@@ -192,3 +197,10 @@ const restartButton = document.getElementById('restartButton');
 restartButton.addEventListener('click', () => {
   createGameBoard();
 });
+
+// Set initial mode to Normal
+document.getElementById('mode').textContent = 'Normal Mode';
+
+// Set initial grid size to 5x5
+gridSize = 5;
+createGameBoard();
