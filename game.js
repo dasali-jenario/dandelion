@@ -19,7 +19,11 @@ modeSwitch.addEventListener('click', () => {
     } else {
         gridSize = 5; // Reset grid size to 5x5 in normal mode
     }
-    createGameBoard();
+    currentPlayer = 'dandelion'; // Reset current player
+    usedDirections = []; // Reset used directions
+    currentRound = 1; // Reset current round
+    resetDirectionButtons(); // Reset the direction buttons
+    createGameBoard(); // Reset the game board
 });
 
 // Add event listeners to the grid size options
@@ -32,7 +36,9 @@ gridSizeOptions.forEach(option => {
 });
 
 function createGameBoard() {
-    board = new Array(gridSize).fill(0).map(() => new Array(gridSize).fill(0)); // Initialize the game board
+    board = new Array(gridSize).fill(0).map(() => new Array(gridSize).fill({state: 0, hits: 0}));
+    usedDirections = []; // Reset used directions
+    currentRound = 1; // Reset current round
     const gameBoard = document.getElementById('gameBoard');
     gameBoard.innerHTML = ''; // Clear the game board
     gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`; // Set the number of columns based on the grid size
@@ -56,9 +62,9 @@ function renderBoard() {
         for (let j = 0; j < gridSize; j++) {
             const cell = document.createElement('div');
             cell.className = 'cell';
-            if (board[i][j] === 1) {
+            if (board[i][j].state === 1) {
                 cell.textContent = '🌱'; // Or use an image for seed
-            } else if (board[i][j] === 2) {
+            } else if (board[i][j].state === 2) {
                 cell.textContent = '🌼'; // Or use an image for flower
             }
             cell.addEventListener('click', () => {
@@ -72,13 +78,12 @@ function renderBoard() {
 }
 
 function placeDandelion(row, col) {
-    // Player 'dandelion' places a flower at the specified location, if it's empty or has a seed, and only when it's 'dandelion's' turn
-    if (currentPlayer === 'dandelion' && board[row][col] !== 2) {
-      board[row][col] = 2;
-      renderBoard();
-      switchPlayer();
+    if (currentPlayer === 'dandelion' && board[row][col].state !== 2) {
+        board[row][col] = {state: 2, hits: 0};
+        renderBoard();
+        switchPlayer();
     }
-  }
+}
 
 function chooseWindDirection(event) {
     // Player 'wind' chooses the wind direction
@@ -100,38 +105,69 @@ function chooseWindDirection(event) {
 }
 
 function spreadSeeds(direction) {
-  let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
-  for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-          if (board[i][j] === 2) {
-              let newRow = i + direction[0];
-              let newCol = j + direction[1];
-              while (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
-                  if (newBoard[newRow][newCol] === 0) { // Only spread seeds to empty cells
-                      newBoard[newRow][newCol] = 1;
-                  }
-                  newRow += direction[0];
-                  newCol += direction[1];
-              }
-          }
-      }
-  }
-  board = newBoard;
+    let newBoard = JSON.parse(JSON.stringify(board)); // Clone the board
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            if (board[i][j].state === 2) {
+                let newRow = i + direction[0];
+                let newCol = j + direction[1];
+                while (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                    if (newBoard[newRow][newCol].state === 0) { // Only spread seeds to empty cells
+                        newBoard[newRow][newCol] = {state: 1, hits: 1};
+                    } else if (newBoard[newRow][newCol].state === 1) { // If the cell already has a seed
+                        newBoard[newRow][newCol].hits++;
+                        if (isExpertMode && newBoard[newRow][newCol].hits === 2) { // If the seed is hit for the second time and the game is in Expert mode
+                            newBoard[newRow][newCol].state = 2; // Turn it into a flower
+                        }
+                    }
+                    newRow += direction[0];
+                    newCol += direction[1];
+                }
+            }
+        }
+    }
+    board = newBoard;
 }
 
 function checkGameOver() {
-  for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-          if (board[i][j] === 0) {
-              return false;
-          }
-      }
-  }
-  return true;
+    // Check if all cells contain a flower
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            if (board[i][j].state !== 2) {
+                return false;
+            }
+        }
+    }
+
+    // Check if there are any more possible moves for the 'wind' player
+    const directions = [
+        [-1, 0], [1, 0], [0, -1], [0, 1],
+        [-1, -1], [-1, 1], [1, -1], [1, 1]
+    ];
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            if (board[i][j].state === 2) {
+                for (let direction of directions) {
+                    let newRow = i + direction[0];
+                    let newCol = j + direction[1];
+                    while (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                        if (board[newRow][newCol].state === 0 || board[newRow][newCol].state === 1) {
+                            return false;
+                        }
+                        newRow += direction[0];
+                        newCol += direction[1];
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
 function switchPlayer() {
-  currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
+    currentPlayer = currentPlayer === 'dandelion' ? 'wind' : 'dandelion';
+    document.getElementById('playerTurn').textContent = `Current Player: ${currentPlayer}`;
   updatePlayerTurn();
   toggleDirectionButtons();
   if (currentPlayer === 'dandelion') {
@@ -155,7 +191,7 @@ function switchPlayer() {
 }
 
 function updateCurrentRound() {
-    // Update the displayed current round
+    document.getElementById('currentRound').textContent = `Current Round: ${currentRound}`;
     const currentRoundElement = document.getElementById('currentRound');
     currentRoundElement.textContent = `Round ${currentRound}/7`;
 }
@@ -174,7 +210,7 @@ function toggleDirectionButtons() {
     });
   }
 
-function resetDirectionButtons() {
+  function resetDirectionButtons() {
     // Reset the background color and disabled state of the direction buttons
     const directionButtons = document.querySelectorAll('.direction');
     directionButtons.forEach(button => {

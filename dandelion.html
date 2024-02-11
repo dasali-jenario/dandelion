@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <h1 id="title">Dandelion vs Wind - <span id="mode"></span></h1><head>
+<head>
     <link rel="stylesheet" href="game.css">
 </head>
 <body>
+    <h1 id="title">Dandelion vs Wind - <span id="mode"></span></h1>
     <div id="gameBoard"></div>
 
     <div id="infoContainer">
-        <div id="playerTurn"></div>
-        <div id="currentRound"></div>
+        <div id="playerTurn">Current Player: </div>
+        <div id="currentRound">Current Round: </div>
         <div id="directionButtons">
             <button class="direction" data-dir="-1,0">↑</button>
             <button class="direction" data-dir="1,0">↓</button>
@@ -21,12 +22,12 @@
         </div>
         <button id="restartButton">Restart Game</button>
         <button id="modeSwitch">Switch to Expert Mode</button>
-<div id="gridSizeOptions" style="display: none;">
-    <label><input type="radio" name="gridSize" value="7"> 7x7</label>
-    <label><input type="radio" name="gridSize" value="10"> 10x10</label>
-    <label><input type="radio" name="gridSize" value="15"> 15x15</label>
-</div>
-<a href="https://github.com/dasali-jenario/dandelion/blob/main/README.md" target="_blank">Readme</a>
+        <div id="gridSizeOptions" style="display: none;">
+            <label><input type="radio" name="gridSize" value="7"> 7x7</label>
+            <label><input type="radio" name="gridSize" value="10"> 10x10</label>
+            <label><input type="radio" name="gridSize" value="15"> 15x15</label>
+        </div>
+        <a href="https://github.com/dasali-jenario/dandelion/blob/main/README.md" target="_blank">Readme</a>
     </div>
 
     <script src="game.js"></script>
